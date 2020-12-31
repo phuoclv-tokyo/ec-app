@@ -1,15 +1,16 @@
 import React from 'react';
+import {getUserId, getUsername} from '../reducks/users/selectors';
 import {useSelector} from 'react-redux';
-import {getUserId, getUserName} from '../reducks/users/selectors';
 
 const Home = () => {
     const selector = useSelector(state => state);
     const uid = getUserId(selector);
-    const username = getUserName(selector);
+    const username = getUsername(selector);
+    const isSignedIn = selector.users.isSignedIn;
     return (
         <div>
             <h2>ホーム</h2>
-            {(uid !== "")&& (
+            {(isSignedIn) && (
                 <div>
                     <p>ID: {uid}</p>
                     <p>Username: {username}</p>

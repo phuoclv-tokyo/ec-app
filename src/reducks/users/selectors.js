@@ -7,7 +7,7 @@ export const getUserId = createSelector(
     state => state.uid
 );
 
-export const getUserName = createSelector(
+export const getUsername = createSelector(
     [usersSelector],
     state => state.username
 );
