@@ -1,5 +1,5 @@
 /**
- * Validate input email
+ * Validate email input
  * @param email
  * @returns {boolean}
  */
@@ -9,8 +9,8 @@ export const isValidEmailFormat = (email) => {
 }
 
 /**
- * Show an alert if required input is blank
- * @param args Required input values
+ * Show alert if required is blank
+ * @param asrg Required values
  * @returns {boolean}
  */
 export const isValidRequiredInput = (...args) => {
