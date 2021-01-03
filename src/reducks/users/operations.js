@@ -7,25 +7,24 @@ import { signInAction, signOutAction } from './actions';
 const usersRef = db.collection('users');
 
 export const listenAuthState = () => {
-    return async(dispatch) => {
+    return async (dispatch) => {
         auth.onAuthStateChanged(user => {
             if (user) {
                 const userId = user.uid;
 
-                usersRef.doc(userId).get().then(snapshort => {
-                    const data = snapshort.data();
+                usersRef.doc(userId).get().then(snapshot => {
+                    const data = snapshot.data();
                     dispatch(signInAction({
                         isSignedIn: true,
                         role: data.role,
                         uid: userId,
                         username: data.username
                     }));
-                    dispatch(push('/'));
                 })
             } else {
                 dispatch(push('/signin'));
             }
-        });
+        })
     }
 }
 
@@ -132,8 +131,8 @@ export const signIn = (email, password) => {
                     }
                     const userId = userState.uid;
 
-                    usersRef.doc(userId).get().then(snapshort => {
-                        const data = snapshort.data();
+                    usersRef.doc(userId).get().then(snapshot => {
+                        const data = snapshot.data();
                         if (!data) {
                             dispatch(hideLoadingAction());
                             alert('ユーザーデータが存在しません。');

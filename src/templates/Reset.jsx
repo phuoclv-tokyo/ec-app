@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { PrimaryButton, TextInput } from '../components/UIkit';
-import { resetPassword } from '../reducks/users/operations';
+import {resetPassword} from '../reducks/users/operations';
 
 const Reset = () => {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Reset = () => {
 
     return (
         <div className="c-section-container">
-            <h2 className="u-text__headline u-text-center">リセットのパスワード</h2>
+            <h2 className="u-text__headline u-text-center">パスワードリセット</h2>
             <div className="module-spacer--medium" />
             <TextInput 
                 fullWidth={true} label={"メールアドレス"} required={true} multiline={false}
@@ -27,7 +27,7 @@ const Reset = () => {
                     label={"Reset Password"}
                 />
                 <div className="module-spacer--medium" />
-                <p onClick={() => dispatch(push('/signin'))}>ログイン画面に戻る</p>
+                <p onClick={() => dispatch(push('/signin'))} >ログイン画面に戻る</p>
             </div>
         </div>
     )

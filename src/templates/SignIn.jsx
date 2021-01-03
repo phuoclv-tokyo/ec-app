@@ -46,7 +46,7 @@ const SignIn = () => {
                     label={"Sign in"}
                 />
                 <div className="module-spacer--medium" />
-                <p onClick={() => dispatch(push('/signup'))}><a>アカウントをお持ちでない方はこちら</a></p>
+                <p onClick={() => dispatch(push('/signup'))}>アカウントをお持ちではない方はこちら</p>
                 <p onClick={() => dispatch(push('/signin/reset'))}>パスワードをお忘れた方はこちら</p>
             </div>
         </div>

@@ -4,7 +4,7 @@ const initialState = {
         text: ""
     },
     products: {
-
+        list: []
     },
     users: {
         isSignedIn: false,
