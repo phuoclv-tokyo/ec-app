@@ -6,7 +6,7 @@ import { hideLoadingAction } from "../loading/actions";
 
 const productsRef = db.collection('products');
 
-export const saveProduct = (name, description, category, gender, price, images) => {
+export const saveProduct = (id ,name, description, category, gender, price, images, sizes) => {
     return async (dispatch) => {
         if (!isValidRequiredInput(name, description, category, gender, price)) {
             alert('必須項目が未入力です。');
@@ -25,15 +25,17 @@ export const saveProduct = (name, description, category, gender, price, images) 
             gender: gender,
             images: images,
             price: parseInt(price, 10),
+            sizes: sizes,
             updated_at: timestamp
         }
 
-        const ref = productsRef.doc();
-        const id = ref.id
-        data.id = id;
-        data.created_at = timestamp;
-
-        return productsRef.doc(id).set(data)
+        if (id === "") {
+            const ref = productsRef.doc();
+            id = ref.id
+            data.id = id;
+            data.created_at = timestamp;
+        }
+        return productsRef.doc(id).set(data, {merge: true})
             .then(() => {
                 dispatch(push('/'));
             }).catch((error) => {
