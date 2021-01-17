@@ -9,14 +9,13 @@ import { saveProduct } from '../reducks/products/operations';
 const ProductBox = () => {
     const dispatch = useDispatch();
     let id = window.location.pathname.split('/product/edit')[1];
-
     if (id !== "") {
         id = id.split('/')[1];
     }
-
     const [name, setName] = useState(""),
           [description, setDescription] = useState(""),
           [category, setCategory] = useState(""),
+          [categories, setCategories] = useState([]),
           [gender, setGender] = useState(""),
           [images, setImages] = useState([]),
           [price, setPrice] = useState(""),
@@ -34,12 +33,6 @@ const ProductBox = () => {
         setPrice(event.target.value)
     }, [setPrice]);
 
-    const categories = [
-        {id: "tops", name: "トップス"},
-        {id: "shirts", name: "シャツ"},
-        {id: "pant", name: "パンツ"},
-    ];
-
     const genders = [
         {id: "all", name: "すべて"},
         {id: "male", name: "メンス"},
@@ -51,16 +44,33 @@ const ProductBox = () => {
             db.collection('products').doc(id).get()
                 .then(snapshot => {
                     const data = snapshot.data();
-                    setImages(data.images);
                     setName(data.name);
                     setDescription(data.description);
                     setCategory(data.category);
                     setGender(data.gender);
+                    setImages(data.images);
                     setPrice(data.price);
                     setSizes(data.sizes);
                 })
         }
-    }, [id])
+    }, [id]);
+
+    useEffect(() => {
+        db.collection('categories')
+            .orderBy('order', 'asc')
+            .get()
+            .then(snapshots => {
+                const list = []
+                snapshots.forEach(snapshot => {
+                    const data = snapshot.data()
+                    list.push({
+                        id: data.id,
+                        name: data.name
+                    })
+                })
+                setCategories(list)
+            })
+    }, [])
 
     return (
         <div className="c-section-container">
@@ -85,7 +95,7 @@ const ProductBox = () => {
                 rows={1} value={price} type={"number"} onChange={inputPrice}
             />
             <div className="module-spacer--small"/>
-            <SetSizeArea sizes={sizes} setSizes={setSizes} />
+            <SetSizeArea sizes={sizes} setSizes={setSizes}/>
             <div className="module-spacer--small"/>
             <div className="center">
                 <PrimaryButton 

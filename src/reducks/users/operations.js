@@ -2,9 +2,44 @@ import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import {hideLoadingAction, showLoadingAction} from '../loading/actions';
 import { auth, db, FirebaseTimestamp } from '../../firebase';
 import { push } from 'connected-react-router';
-import { signInAction, signOutAction } from './actions';
+import { fetchOrdersHistoryAction, fetchProductsInCartAction, signInAction, signOutAction } from './actions';
 
 const usersRef = db.collection('users');
+
+export const addProductToCart = (addedProduct) => {
+    return async (dispatch, getState) => {
+        const uid = getState().users.uid;
+        const cartRef = usersRef.doc(uid).collection('cart').doc();
+        addedProduct['cartId'] = cartRef.id;
+        await cartRef.set(addedProduct);
+        dispatch(push('/'));
+    }
+}
+
+export const fetchOrdersHistory = () => {
+    return async (dispatch, getState) => {
+        const uid = getState().users.uid;
+        const list = [];
+
+        db.collection('users').doc(uid)
+            .collection('orders')
+            .orderBy('updated_at', 'desc')
+            .get()
+            .then((snapshots) => {
+                snapshots.forEach(snapshot => {
+                    const data = snapshot.data()
+                    list.push(data)
+                });
+                dispatch(fetchOrdersHistoryAction(list));
+            })
+    }
+}
+
+export const fetchProductsInCart = (products) => {
+    return async (dispatch) => {
+        dispatch(fetchProductsInCartAction(products));
+    }
+}
 
 export const listenAuthState = () => {
     return async (dispatch) => {

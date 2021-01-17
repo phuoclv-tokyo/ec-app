@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -10,12 +10,12 @@ import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { makeStyles } from '@material-ui/styles';
-import { TextInput } from '../UIkit';
+import {TextInput} from '../UIkit';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
     checkIcon: {
-        float: 'right'
+        float: 'right',
     },
     iconCell: {
         height: 48,
@@ -28,8 +28,8 @@ const SetSizeArea = (props) => {
     const [index, setIndex] = useState(0),
           [size, setSize] = useState(""),
           [quantity, setQuantity] = useState(0);
-    
-    const inputSize = useCallback((event) => {
+
+    const inputSize = useCallback((event)=>{
         setSize(event.target.value)
     }, [setSize]);
 
@@ -38,7 +38,7 @@ const SetSizeArea = (props) => {
     }, [setQuantity]);
 
     const addSize = (index, size, quantity) => {
-        if (size === "" || quantity === "" || quantity <= 0) {
+        if (size === "" || quantity === "") {
             alert('必須項目が未入力です。');
             return false;
         } else {
@@ -49,7 +49,7 @@ const SetSizeArea = (props) => {
                 setQuantity(0);
             } else {
                 const newSizes = props.sizes;
-                newSizes[index] = {size: size, quantity: quantity}
+                newSizes[index] = {size: size, quantity: quantity};
                 props.setSizes(newSizes);
                 setIndex(newSizes.length);
                 setSize("");
@@ -70,34 +70,34 @@ const SetSizeArea = (props) => {
     }
 
     useEffect(() => {
-        setIndex(props.sizes.length)
+        setIndex(props.sizes.length);
     }, [props.sizes.length]);
 
     return (
         <div>
-            <TableContainer componnet={Paper}>
+            <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>サイズ</TableCell>
                             <TableCell>数量</TableCell>
-                            <TableCell className={classes.iconCell} />
-                            <TableCell className={classes.iconCell} />
+                            <TableCell />
+                            <TableCell />
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {props.sizes.length > 0 && (
                             props.sizes.map((item, i) => (
-                                <TableRow key={item.size}>
+                                <TableRow key={i.toString()}>
                                     <TableCell>{item.size}</TableCell>
                                     <TableCell>{item.quantity}</TableCell>
-                                    <TableCell>
-                                        <IconButton className={classes.iconCell} onClick={() => editSize(i, item.size, item.quantity)}>
+                                    <TableCell className={classes.iconCell}>
+                                        <IconButton onClick={() => editSize(i, item.size, item.quantity)}>
                                             <EditIcon />
                                         </IconButton>
                                     </TableCell>
-                                    <TableCell>
-                                        <IconButton className={classes.iconCell} onClick={() => deleteSize(i)}>
+                                    <TableCell className={classes.iconCell}>
+                                        <IconButton onClick={() => deleteSize(i)}>
                                             <DeleteIcon />
                                         </IconButton>
                                     </TableCell>
@@ -116,11 +116,11 @@ const SetSizeArea = (props) => {
                         rows={1} value={quantity} type={"number"} onChange={inputQuantity}
                     />
                 </div>
-                <IconButton className={classes.checkIcon} onClick={() => addSize(index, size, quantity)}>
+                <IconButton className={classes.checkIcon} onClick={() => addSize(index, size, quantity)} >
                     <CheckCircleIcon />
                 </IconButton>
             </TableContainer>
-        </div>
+        </div>    
     )
 }
 

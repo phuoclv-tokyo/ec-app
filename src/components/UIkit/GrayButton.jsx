@@ -1,20 +1,19 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import {makeStyles} from '@material-ui/core/Styles';
+import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     "button": {
-        backgroundColor: "#4dd0e1",
-        color: "#000",
+        backgroundColor: theme.palette.grey[300],
         fontSize: 16,
         height: 48,
         width: 256,
         // borderRadius: "4px",
         marginBottom: 16
     }
-})
+}));
 
-const PrimaryButton = (props) => {
+const GrayButton = (props) => {
     const classes = useStyles();
     return (
         <Button className={classes.button} variant="contained" onClick={() => props.onClick()} >
@@ -23,4 +22,4 @@ const PrimaryButton = (props) => {
     )
 }
 
-export default PrimaryButton
+export default GrayButton
